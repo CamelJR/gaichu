@@ -2,7 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getSets } from "../hooks/getCollection";
 import Tile from "./Tile";
 
-const setsList = () => {
+export interface SetsListProps {
+  size: "large" | "small";
+}
+
+const setsList: React.FC<SetsListProps> = ({ size }) => {
   const navigate = useNavigate();
   const { seriesShortName } = useParams();
   const { data: collectionSet, error } = getSets(seriesShortName);
@@ -21,7 +25,8 @@ const setsList = () => {
             <img
               src={set.set.logo}
               alt={set.set.short_name}
-              className="mb-4 max-h-16 rounded object-contain"
+              sizes={size}
+              className={`w-full ${size === "large" ? "h-auto max-h-[400px]" : "h-auto max-h-[150px]"} rounded-md object-contain`}
             />
             <h3 className="text-lg">{set.set.name}</h3>
             <p className="text-secondaryText text-center">{set.cards.length}</p>
