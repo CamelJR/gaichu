@@ -1,6 +1,6 @@
 // src/pages/CardDetailPage.tsx
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getCardDetail } from "../hooks/getCollection";
 
 interface Params extends Record<string, string | undefined> {
@@ -12,6 +12,22 @@ interface Params extends Record<string, string | undefined> {
 const CardDetailPage: React.FC = () => {
   const { cardName } = useParams<Params>();
   const { data: card, error } = getCardDetail(cardName);
+  const navigate = useNavigate();
+
+  // 1) Find the current series, set, and its cards array
+
+  // 2) Locate the index of the current card
+
+  // 3) Determine the next card (or undefined if at end)
+  const nextCard = 0 ? +1 : undefined;
+
+  // 4) Handler to go to next card
+  const goToNext = () => {};
+
+  // 5) Fallback if card not found
+  if (!card) {
+    return <div className="p-8 text-center">Card not found</div>;
+  }
 
   if (cardName == null || error != null) {
     return (
@@ -91,6 +107,20 @@ const CardDetailPage: React.FC = () => {
               </tr>
             </tbody>
           </table>
+
+          {/* Next / Prev Buttons */}
+          <div className="mt-6 flex space-x-4">
+            <button onClick={() => navigate(-1)} className="button">
+              Back
+            </button>
+            <button
+              onClick={goToNext}
+              disabled={!nextCard}
+              className={`button ${!nextCard ? "cursor-not-allowed opacity-50" : ""}`}
+            >
+              Next Card
+            </button>
+          </div>
         </div>
       </div>
     </div>
